@@ -1,0 +1,42 @@
+{
+	"ImportPath": "github.com/dneilroth/rideshare-compare",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/handlers",
+			"Comment": "v1.2-3-g6d39a51",
+			"Rev": "6d39a51b4b5238fb818fe7ee0d0527dc5bf16d07"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.1-27-g757bef9",
+			"Rev": "757bef944d0f21880861c2dd9c871ca543023cba"
+		},
+		{
+			"ImportPath": "github.com/newshipt/shipt-go-service-skeleton/configuration",
+			"Rev": "30fdf1203d53ff5e8744e8c8e921563c3e93acac"
+		},
+		{
+			"ImportPath": "github.com/newshipt/shipt-go-service-skeleton/controllers",
+			"Rev": "30fdf1203d53ff5e8744e8c8e921563c3e93acac"
+		},
+		{
+			"ImportPath": "github.com/newshipt/shipt-go-service-skeleton/routers",
+			"Rev": "30fdf1203d53ff5e8744e8c8e921563c3e93acac"
+		},
+		{
+			"ImportPath": "github.com/newshipt/shipt-go-service-skeleton/version",
+			"Rev": "30fdf1203d53ff5e8744e8c8e921563c3e93acac"
+		},
+		{
+			"ImportPath": "github.com/newshipt/shipt-go-utils/configuration",
+			"Rev": "48d98e1e994a59fa80a10535c34f2d5306e8d295"
+		},
+		{
+			"ImportPath": "github.com/urfave/negroni",
+			"Comment": "v0.2.0-96-gb0a6f45",
+			"Rev": "b0a6f4500e67c3e53f2d1563cca1563ab9777533"
+		}
+	]
+}

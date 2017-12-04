@@ -10,6 +10,7 @@ type AppConfig struct {
 	UberURL          string
 	LyftCredentials  string
 	GoogleGeoCodeURL string
+	UberCredentials  string
 }
 
 // GetNewAppConfig ...
@@ -17,6 +18,7 @@ func GetNewAppConfig() *AppConfig {
 	lyftURL := "https://api.lyft.com"
 	uberURL := "https://api.uber.com"
 	lyftCredentials := os.Getenv("LYFT_CREDENTIALS")
+	uberCredentials := os.Getenv("UBER_CREDENTIALS")
 	googleGeoCodeURL := "https://maps.googleapis.com/maps/api/geocode/json"
 
 	return &AppConfig{
@@ -24,5 +26,6 @@ func GetNewAppConfig() *AppConfig {
 		UberURL:          uberURL,
 		LyftCredentials:  lyftCredentials,
 		GoogleGeoCodeURL: googleGeoCodeURL,
+		UberCredentials:  uberCredentials,
 	}
 }

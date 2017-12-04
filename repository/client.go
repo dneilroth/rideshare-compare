@@ -7,8 +7,8 @@ import (
 
 var client *http.Client
 
-// NewRideshareClient ...
-func NewRideshareClient() *http.Client {
+// NewHTTPClient ...
+func NewHTTPClient() *http.Client {
 	if client == nil {
 		client = &http.Client{
 			Timeout: time.Second * 5,

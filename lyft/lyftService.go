@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -18,37 +19,37 @@ var retries int
 
 // Estimate get estimated lyft line cost for given
 // pickup and dropoff location
-func Estimate(c chan models.CompareResponse) {
+func Estimate(pickupLat, pickupLong, dropoffLat, dropoffLong float64) models.CompareResponse {
 	var cResp models.CompareResponse
 	var respBody models.LyftCostResponse
 
 	config := configuration.GetNewAppConfig()
 	url := config.LyftURL
-	endpoint := "/v1/cost?start_lat=37.7763&start_lng=-122.3918&end_lat=37.7972&end_lng=-122.4533"
+	endStr := "/v1/cost?start_lat=%f&start_lng=%f&end_lat=%f&end_lng=%f"
+	endpoint := fmt.Sprintf(endStr, pickupLat, pickupLong, dropoffLat, dropoffLong)
 	req, err := http.NewRequest("GET", url+endpoint, nil)
 	if err != nil {
 		panic(err)
 	}
 
-	go func() {
-		res, err := makeRequest(req)
-		if err != nil {
-			panic(err)
-		}
+	res, err := makeRequest(req)
+	if err != nil {
+		panic(err)
+	}
 
-		err = json.NewDecoder(res.Body).Decode(&respBody)
-		if err != nil {
-			panic(err)
-		}
+	err = json.NewDecoder(res.Body).Decode(&respBody)
+	if err != nil {
+		panic(err)
+	}
 
-		for _, est := range respBody.CostEstimates {
-			if est.Type == "lyft_line" {
-				cResp.Company = "Lyft"
-				cResp.Cost = est.EstMaxCost()
-			}
+	for _, est := range respBody.CostEstimates {
+		if est.Type == "lyft_line" {
+			cResp.Company = "Lyft"
+			cResp.Cost = est.EstMaxCost()
 		}
-		c <- cResp
-	}()
+	}
+
+	return cResp
 }
 
 func getAuthToken() string {
@@ -56,7 +57,7 @@ func getAuthToken() string {
 		config := configuration.GetNewAppConfig()
 		url := config.LyftURL
 		data := config.LyftCredentials
-		client := repository.NewRideshareClient()
+		client := repository.NewHTTPClient()
 		credsEnc := base64.StdEncoding.EncodeToString([]byte(data))
 		jBody := []byte(`{"grant_type": "client_credentials", "scope": "public"}`)
 
@@ -91,7 +92,7 @@ func getAuthToken() string {
 func makeRequest(r *http.Request) (*http.Response, error) {
 	token := getAuthToken()
 	r.Header.Add("Authorization", "bearer "+token)
-	client := repository.NewRideshareClient()
+	client := repository.NewHTTPClient()
 	res, err := client.Do(r)
 	if err != nil {
 		panic(err)

@@ -8,6 +8,7 @@ import (
 	"github.com/dneilroth/rideshare-compare/google"
 	"github.com/dneilroth/rideshare-compare/lyft"
 	"github.com/dneilroth/rideshare-compare/models"
+	"github.com/dneilroth/rideshare-compare/uber"
 )
 
 var authToken string
@@ -33,7 +34,7 @@ func Compare(w http.ResponseWriter, r *http.Request) {
 	c := make(chan models.CompareResponse)
 	defer close(c)
 	go func() { c <- lyft.Estimate(pickupLat, pickupLong, dropoffLat, dropoffLong) }()
-	go func() { c <- lyft.Estimate(pickupLat, pickupLong, dropoffLat, dropoffLong) }()
+	go func() { c <- uber.Estimate(pickupLat, pickupLong, dropoffLat, dropoffLong) }()
 	estimates := []models.CompareResponse{}
 
 	for i := 0; i < 2; i++ {
